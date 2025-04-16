@@ -2,7 +2,7 @@
 
 **DataFunnel** is a responsive full-stack data visualization dashboard that reads sales funnel data from a JSON file using a custom backend and presents detailed funnel metrics on the frontend using charts and tables. It includes interactive win-rate visualizations and stage-by-stage analytics using Material UI and D3.js-inspired styling.
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 | Layer         | Tech Used                       |
 | ------------- | ------------------------------- |
@@ -89,6 +89,8 @@ Visit: [http://localhost:3001](http://localhost:3001)
 > - Displays **Lost**, **Moved**, and **Win Rate %** with color-coded emphasis.
 
 ## Screenshots
-
+# Normal Preview
 ![Normal Preview](./screenshots/normal.png)
+
+# Mobile Preview
 ![Mobile Preview](./screenshots/mobile.png)
