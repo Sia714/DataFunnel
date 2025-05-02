@@ -29,16 +29,16 @@
 DataFunnel/
 │
 ├── backend/
-│   ├── server.js        # Pure Node.js server
-│   └── data.json        # Raw funnel data
+│   ├── server.js       
+│   └── data.json        
 │
 ├── frontend/
 │   ├── public/
 │   └── src/
-│       ├── App.js       # Main layout and logic
+│       ├── App.js      
 │       └── components/
-│           ├── DChart.js  # Funnel visualization (charts)
-│           └── DTable.js  # Tabular representation
+│           ├── DChart.js  
+│           └── DTable.js 
 ```
 
 ## Getting Started
