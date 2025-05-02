@@ -6,12 +6,22 @@ import DTable from "./components/DTable";
 
 function App() {
   const [data, setData] = useState(null);
+  const [tableDataCount, setTableDataCount] = useState(null);
+  const [tableDataAcv, setTableDataAcv] = useState(null);
+  const [totalLostCount, setTotalLostCount] = useState(null);
+  const [totalLostAcv, setTotalLostAcv] = useState(null);
 
   //fetch the data from the backend API
   useEffect(() => {
     fetch("http://localhost:3000/api/data") //url set on the backend
       .then((res) => res.json())
-      .then(setData)
+      .then((res) => {
+        setData(res.data);
+        setTableDataCount(res.tableDataCount);
+        setTableDataAcv(res.tableDataAcv);
+        setTotalLostCount(res.totalLostCount);
+        setTotalLostAcv(res.totalLostAcv);
+      })
       .catch((err) => console.error("Error fetching data:", err));
   }, []); // [] makes sure data is fetched once when the component loads
 
@@ -21,71 +31,6 @@ function App() {
         <CircularProgress />
       </Container>
     ); //if data hasn't been fetched yet, show loading effect
-
-  //calculate the table data for count
-  const CountTable = (data) =>
-    //format the raw data into table-ready structure
-
-    data.map((curr, index) => {
-      const nxt = data[index + 1];
-      const moved = nxt?.count ?? (curr.label === "Won" ? curr.count : 0);
-      // Ones who didn't move to the next stage are considered lost
-
-      const lost = curr.count - moved;
-      //win rate is the percentage of last count/ current count
-      const winRate = (
-        (data[data.length - 1].count / curr.count) *
-        100
-      ).toFixed(0);
-      const diffRate = curr.diffRate;
-      return {
-        stage: curr.label,
-        cameToStage: curr.count,
-        lost,
-        moved,
-        winRate: `${winRate}%`,
-        diffRate,
-      };
-    });
-
-  //calculate the table data for acv
-  const AcvTable = (data) =>
-    //format the raw data into table-ready structure
-
-    data.map((curr, index) => {
-      const nxt = data[index + 1];
-      const moved = nxt?.acv ?? (curr.label === "Won" ? curr.acv : 0);
-
-      const lost = curr.acv - moved; //Ones who didn't move to the next stage are considered lost
-
-      //win rate is the percentage of last avc/ current acv
-      const winRate = ((data[data.length - 1].acv / curr.acv) * 100).toFixed(0);
-      const diffacvRate = curr.diffacvRate;
-
-      return {
-        stage: curr.label,
-        cameToStage: curr.acv,
-        lost,
-        moved,
-        winRate: `${winRate}%`,
-        diffacvRate,
-      };
-    });
-
-  //
-  const tableDataCount = CountTable(data);
-  const tableDataAcv = AcvTable(data);
-
-  //calculate total lost opportunities (excluding 'Won')
-
-  const totalLostCount = tableDataCount.reduce(
-    (sum, row) => sum + (row.stage === "Won" ? 0 : row.lost),
-    0
-  );
-  const totalLostAcv = tableDataAcv.reduce(
-    (sum, row) => sum + (row.stage === "Won" ? 0 : row.lost),
-    0
-  );
 
   return (
     //equivalent to div in html
